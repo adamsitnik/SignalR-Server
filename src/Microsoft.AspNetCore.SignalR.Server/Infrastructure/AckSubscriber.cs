@@ -17,11 +17,10 @@ namespace Microsoft.AspNetCore.SignalR.Infrastructure
     {
         private readonly IMessageBus _messageBus;
         private readonly IAckHandler _ackHandler;
+        private readonly List<string> _signals = new List<string>(1) { Signal };
         private IDisposable _subscription;
 
         private const int MaxMessages = 10;
-
-        private static readonly string[] ServerSignals = new[] { Signal };
 
         public AckSubscriber(IMessageBus messageBus, IAckHandler ackHandler)
         {
@@ -38,7 +37,7 @@ namespace Microsoft.AspNetCore.SignalR.Infrastructure
 
         public IList<string> EventKeys
         {
-            get { return ServerSignals; }
+            get { return _signals; }
         }
 
         public event Action<ISubscriber, string> EventKeyAdded
